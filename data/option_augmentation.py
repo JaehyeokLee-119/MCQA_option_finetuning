@@ -3,7 +3,7 @@ import pandas as pd
 import random
 from tqdm import tqdm
 
-data_paths = ['RULE_mainq_AMR-LDA.jsonl']
+data_paths = ['Trainable_ReClor_AMR-LDA_300_augmented.jsonl']
 
 for data_path in data_paths:
     output_datapath = data_path.split('.')[0] + '_options.jsonl'
