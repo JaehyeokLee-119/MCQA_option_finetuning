@@ -17,8 +17,8 @@ def start(
     model_name='mixtral-8x7b-instruct',#'llama-13b',#'mixtral-8x7b-instruct',#,'mixtral-8x7b',#'mixtral-8x7b-instruct',#,
     pretrained_model_name_or_path='mistralai/Mixtral-8x7B-Instruct-v0.1',#'meta-llama/Llama-2-13b-hf',#'mistralai/Mixtral-8x7B-Instruct-v0.1',#'mistralai/Mixtral-8x7B-v0.1',#
     model_precision="bf16", # 'bf16'\
-    # fewshot_samples_folder=None,
-    fewshot_samples_folder='/hdd/hjl8708/workspace/MCQA_option_finetuning/data/fewshots/ReClor_AMR-LDA_4shot'# None,
+    fewshot_samples_folder=None,
+    # fewshot_samples_folder='/hdd/hjl8708/workspace/MCQA_option_finetuning/data/fewshots/ReClor_AMR-LDA_4shot'# None,
 ):
     print(f"fewshot_samples_folder: {fewshot_samples_folder}")
     

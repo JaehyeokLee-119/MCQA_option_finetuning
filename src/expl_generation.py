@@ -42,32 +42,32 @@ def embed_prompt(qn_type, chat_prompt, expl_type, question, answer=None, explana
         return ''.join(ch for ch in text if ch not in exclude)
     
     punc_removed_answer = remove_punc(answer)
+    
+    # < Input additional instruction >
     if punc_removed_answer in ['yes', 'no']:
         qn_type = 'yn'
-        input_instruct = 'Choose one of the following options (yes/no).'
+        input_instruct = "Answer with either 'yes/no'."
     else: 
         qn_type = 'mc'
         input_instruct = 'Write the answer label (A/B/C/D).'
 
-            
+    # < label_first_parth >
     if not chat_prompt: 
         input_str = f"{question} {input_instruct}"
         label_first_part = "<Answer> The answer is: "
     else:
         system_prompt = f'I will ask you a question. Answer to the question.'
         input_str = convert_llama2_prompt_format(system_prompt, question, delimiter=input_instruct)
-        
         label_first_part = "The answer is: "
-        
+    
+    # < label answer part format >
     if qn_type == 'mc':
         # label_answer_part = f"{sentence} {answer}"
         label_answer_part = f"({punc_removed_answer}) {sentence}"
     elif qn_type == 'yn':
         if punc_removed_answer == 'yes':
-            answer = 'O'
             label_answer_part = f'{answer} "{sentence}" is the correct answer to the question.'
         else:
-            answer = 'X'
             label_answer_part = f'{answer} "{sentence}" is not the correct answer to the question.'
             
     if test is True:
