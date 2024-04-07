@@ -44,7 +44,7 @@ def embed_prompt(qn_type, chat_prompt, expl_type, question, answer=None, explana
     punc_removed_answer = remove_punc(answer)
     if punc_removed_answer in ['yes', 'no']:
         qn_type = 'yn'
-        input_instruct = 'Choose one of the following options (O/X).'
+        input_instruct = 'Choose one of the following options (yes/no).'
     else: 
         qn_type = 'mc'
         input_instruct = 'Write the answer label (A/B/C/D).'
@@ -65,13 +65,13 @@ def embed_prompt(qn_type, chat_prompt, expl_type, question, answer=None, explana
     elif qn_type == 'yn':
         if punc_removed_answer == 'yes':
             answer = 'O'
-            label_answer_part = f'({answer}) "{sentence}" is the correct answer to the question.'
+            label_answer_part = f'{answer} "{sentence}" is the correct answer to the question.'
         else:
             answer = 'X'
-            label_answer_part = f'({answer}) "{sentence}" is not the correct answer to the question.'
+            label_answer_part = f'{answer} "{sentence}" is not the correct answer to the question.'
             
     if test is True:
-        return input_str + label_first_part + "("
+        return input_str + label_first_part
     else:
         output_str = f"{label_first_part}{label_answer_part}{eos_token}"
         return input_str, output_str
