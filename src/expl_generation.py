@@ -44,38 +44,34 @@ def embed_prompt(qn_type, chat_prompt, expl_type, question, answer=None, explana
     punc_removed_answer = remove_punc(answer)
     if punc_removed_answer in ['yes', 'no']:
         qn_type = 'yn'
-        input_instruct = 'Choose one of the following options (yes/no).'
+        input_instruct = 'Choose one of the following options (O/X).'
     else: 
         qn_type = 'mc'
-        input_instruct = 'Write the answer sentence and label (A/B/C/D).'
-    
+        input_instruct = 'Write the answer label (A/B/C/D).'
+
+            
     if not chat_prompt: 
         input_str = f"{question} {input_instruct}"
-        # input_str = input_str
-        # output_str = label_first_part + label_answer_part
         label_first_part = "<Answer> The answer is: "
-        if qn_type == 'mc':
-            label_answer_part = f"{sentence} {answer}"
-        elif qn_type == 'yn':
-            if punc_removed_answer == 'yes':
-                label_answer_part = f'{answer} "{sentence}" is the correct answer to the question.'
-            else:
-                label_answer_part = f'{answer} "{sentence}" is not the correct answer to the question.'
     else:
         system_prompt = f'I will ask you a question. Answer to the question.'
         input_str = convert_llama2_prompt_format(system_prompt, question, delimiter=input_instruct)
         
         label_first_part = "The answer is: "
-        if qn_type == 'mc':
-            label_answer_part = f"{sentence} {answer}"
-        elif qn_type == 'yn':
-            if punc_removed_answer == 'yes':
-                label_answer_part = f'{answer} "{sentence}" is the correct answer to the question.'
-            else:
-                label_answer_part = f'{answer} "{sentence}" is not the correct answer to the question.'
         
+    if qn_type == 'mc':
+        # label_answer_part = f"{sentence} {answer}"
+        label_answer_part = f"({punc_removed_answer}) {sentence}"
+    elif qn_type == 'yn':
+        if punc_removed_answer == 'yes':
+            answer = 'O'
+            label_answer_part = f'({answer}) "{sentence}" is the correct answer to the question.'
+        else:
+            answer = 'X'
+            label_answer_part = f'({answer}) "{sentence}" is not the correct answer to the question.'
+            
     if test is True:
-        return input_str + label_first_part
+        return input_str + label_first_part + "("
     else:
         output_str = f"{label_first_part}{label_answer_part}{eos_token}"
         return input_str, output_str

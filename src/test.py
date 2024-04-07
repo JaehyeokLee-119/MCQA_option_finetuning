@@ -1,5 +1,5 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 os.environ["HF_HOME"] = "/hdd/hjl8708/saved_models"
 os.environ["TRANSFORMERS_CACHE"] = "/hdd/hjl8708/saved_models"
 
@@ -8,7 +8,7 @@ import fire
 
 # python main.py
 
-BASE_PATH = '/hdd/hjl8708/workspace/NewCode'
+BASE_PATH = '/hdd/hjl8708/workspace/MCQA_option_finetuning'
 
 def start(
     test_data_path=f'{BASE_PATH}/data/test_data/setting_test_reclor.json', # "../data/setting_EM_test.json"
