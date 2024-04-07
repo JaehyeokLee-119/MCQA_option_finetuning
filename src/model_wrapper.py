@@ -2,26 +2,17 @@ from copy import deepcopy
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, get_linear_schedule_with_warmup, LlamaForCausalLM, LlamaTokenizer
 import transformers
 from torch.optim import AdamW
-import pickle as pkl
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm, trange
 import time
 import os
-import sys
-import random
 import numpy as np
-from torch.cuda.amp import autocast, GradScaler
-from llama2_utils import convert_llama2_multiturn_human_assistant_prompt
-import gc
 import dotenv
-import json
 dotenv.load_dotenv()
 API_KEY = os.getenv('HUGGINGFACE_AUTH_TOKEN')
 from peft import (
     LoraConfig,
-    prepare_model_for_int8_training,
-    set_peft_model_state_dict,
     MODEL_TYPE_TO_PEFT_MODEL_MAPPING,
     PeftModel,
 )
@@ -84,8 +75,6 @@ class CLM_wrapper:
                 self.model = load_model_with_precision(pretrained_model_name_or_path, device_map, model_precision)
                 # AutoModelForCausalLM.from_pretrained(pretrained_model_name_or_path, torch_dtype=torch.bfloat16, device_map=device_map, token=API_KEY)
                 # llama_model = load_model_with_precision('meta-llama/Llama-2-13b-chat-hf', device_map, 'bf16')
-                
-                # self.model = prepare_model_for_int8_training(self.model)
                 
                 lora_r = 16
                 if pretrained_model_name_or_path.startswith('meta-llama'):
