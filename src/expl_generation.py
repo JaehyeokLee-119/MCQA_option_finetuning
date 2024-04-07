@@ -1,24 +1,14 @@
-import sys
 from llama2_utils import convert_llama2_prompt_format
 import string
 import json
 import numpy as np
 from model_wrapper import CLM_wrapper
 from transformers import AutoTokenizer
-from sklearn.metrics import accuracy_score
-import pickle as pkl
 import os
 import shutil
 
-# .env로부터 환경변수 불러오기
-from dotenv import load_dotenv
-load_dotenv()
-AUTH_TOKEN = os.getenv('HUGGINGFACE_AUTH_TOKEN')
-
 DEBUG = False
 
-
-# cot/posthoc prompts (for EM)
 def embed_prompt_with_fewshot(qn_type, chat_prompt, expl_type, question, answer=None, explanation=None, eos_token=None, test=False, fewshot_samples_folder=None):
     def remove_punc(text):
         exclude = set(string.punctuation)
@@ -165,8 +155,8 @@ def train_model(model_name, pretrained_model_name_or_path,
     return dev_loss
 
 def train_hyperparam_tuning(model_name, pretrained_model_name_or_path,
-                            data_fname, qn_type, expl_type, lrs, num_epochs, bsz, patience, exp_dir,
-                            effective_bsz=32, use_lora=False, use_wandb=False, wandb_config=None, model_precision='bf16'):
+                            data_fname, lrs, num_epochs, bsz, patience, exp_dir,
+                            effective_bsz=32, use_lora=False, use_wandb=False, wandb_config=None, qn_type='yn', expl_type='cot', model_precision='bf16'):
     # load data
     if type(data_fname) == str:
         data = json.load(open(data_fname))
@@ -223,10 +213,10 @@ def train_hyperparam_tuning(model_name, pretrained_model_name_or_path,
 
 
 def predict_answer(model_name, pretrained_model_name_or_path, load_model_weights_dir,
-                     data_fname, qn_type, expl_type, out_dir=None,
+                     data_fname, out_dir=None,
                      model_parallel=True, bsz=16, do_sample=False, 
                      num_beams=1, top_p=None, num_return_sequences=1,
-                     use_lora=False, max_new_tokens=600, model_precision='bf16', fewshot_samples_folder=None):
+                     use_lora=False, max_new_tokens=600, qn_type='yn', expl_type='cot', model_precision='bf16', fewshot_samples_folder=None):
     # load data
     tokenizer = AutoTokenizer.from_pretrained(pretrained_model_name_or_path)
     eos_token_id = tokenizer.eos_token_id
