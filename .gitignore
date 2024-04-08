@@ -3,3 +3,5 @@ others
 
 __pycache__
 wandb
+
+result/*
