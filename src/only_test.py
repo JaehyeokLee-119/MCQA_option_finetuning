@@ -1,5 +1,5 @@
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,2'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '0,2'
 os.environ["HF_HOME"] = "/hdd/hjl8708/saved_models"
 os.environ["TRANSFORMERS_CACHE"] = "/hdd/hjl8708/saved_models"
 

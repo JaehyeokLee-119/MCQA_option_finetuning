@@ -17,7 +17,8 @@ for i in "${lilist[@]}"; do
 
     CUDA_VISIBLE_DEVICES=0,1 python test.py \
         --test_data_path "../data/test_data/setting_test_reclor.json" \
-        --exp_dir "${experiment_folder}/llama_nochat_ep2-answer_label-setting${i}_LoRA_text_with_label" \
+        --model_weight_dir "${experiment_folder}/llama_nochat_ep2-answer_label-setting${i}_LoRA_text_with_label" \
+        --output_path "${experiment_folder}/llama_nochat_ep2-answer_label-setting${i}_LoRA_text_with_label" \
         --bsz 32 \
         --model_name "llama2-13B" \
         --pretrained_model_name_or_path "meta-llama/Llama-2-13b-hf" \

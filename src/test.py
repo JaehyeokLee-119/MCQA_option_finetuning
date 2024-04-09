@@ -12,20 +12,21 @@ BASE_PATH = '/hdd/hjl8708/workspace/MCQA_option_finetuning'
 
 def start(
     test_data_path=f'{BASE_PATH}/data/test_data/setting_test_reclor.json', # "../data/setting_EM_test.json"
-    exp_dir=f'/hdd/hjl8708/experiments/mixtral-8x7b-nochat-ep2-setting1_LoRA_text_with_label',
+    model_weight_dir=None, #f'/hdd/hjl8708/experiments/mixtral-8x7b-nochat-ep2-setting1_LoRA_text_with_label',
+    output_path=f"/hdd/hjl8708/workspace/experiments/mixtral-8x7b-nochat-ep2-setting1_LoRA_text_with_label",
     bsz=4, # bsz=8
     model_name='mixtral-instruct-8x7b',#'llama2-chat-13B',
     pretrained_model_name_or_path='mistralai/Mixtral-8x7B-Instruct-v0.1',#'meta-llama/Llama-2-13b-chat-hf',
     use_lora=True,
     model_precision="bf16", # 'bf16'
+    max_new_tokens=50,
+    fewshot_samples_folder=None,
 ):
     print(f'use_lora: {use_lora} (type: {type(use_lora)})')
     
     predict_answer(model_name=model_name, pretrained_model_name_or_path=pretrained_model_name_or_path,
-                     bsz=bsz, load_model_weights_dir=exp_dir, data_fname=test_data_path,
-                     out_dir=exp_dir, use_lora=use_lora, max_new_tokens=50, model_precision=model_precision)
-    
-    
+                     bsz=bsz, load_model_weights_dir=model_weight_dir, data_fname=test_data_path,
+                     out_dir=output_path, use_lora=use_lora, max_new_tokens=max_new_tokens, model_precision=model_precision, fewshot_samples_folder=fewshot_samples_folder)
 
 if __name__ == '__main__':
     fire.Fire(start)
