@@ -1,9 +1,9 @@
-# MCQA_option_finetuning
+# Generative LM batch generation code
 
 ## preparing
 python version 3.12.2
-- make text file ./src/.env
-- input [HUGGINGFACE_AUTH_TOKEN = 'YOUR_KEY'] to the .env file
+install tqdm, numpy, transformers, torch
+
 
 ## Acknowledgement
 This repo is built upon https://github.com/yandachen/explanation-consistency-finetuning
